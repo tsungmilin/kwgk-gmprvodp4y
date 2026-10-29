@@ -23,6 +23,7 @@
   --band-accent:#ff8d72; --on-band-accent:#13283a;
   --bus:#a9660a; --jr:#22764a; --ks:#2b51a0; --walk:#97a3ab;
   --bus-l:#f0a640; --jr-l:#5cc58a; --ks-l:#8aabf2; --walk-l:#6f7f8a;
+  --ok:#1c7040; --mid:#8a5a0b; --hot:#b0352a; --ok-l:#6fd39a; --mid-l:#eab65a; --hot-l:#f5897c;
   --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -31,14 +32,14 @@
   --accent:#f07a5f; --on-accent:#0d151b;
   --band:#132330; --band-tone:#1a2f3f; --band-tone2:#233b4e; --band-ink:#eef3f6; --band-ink2:#bccad4;
   --band-accent:#ff8d72; --on-band-accent:#132330;
-  --bus:#f0a640; --jr:#5cc58a; --ks:#8aabf2; --walk:#5d6b75; color-scheme:dark}}
+  --bus:#f0a640; --jr:#5cc58a; --ks:#8aabf2; --walk:#5d6b75; --ok:#6fd39a; --mid:#eab65a; --hot:#f5897c; color-scheme:dark}}
 :root[data-theme="dark"]{
   --ground:#0d151b; --tone:#152029; --tone2:#1d2a34;
   --ink:#e8eef2; --ink2:#aebcc6;
   --accent:#f07a5f; --on-accent:#0d151b;
   --band:#132330; --band-tone:#1a2f3f; --band-tone2:#233b4e; --band-ink:#eef3f6; --band-ink2:#bccad4;
   --band-accent:#ff8d72; --on-band-accent:#132330;
-  --bus:#f0a640; --jr:#5cc58a; --ks:#8aabf2; --walk:#5d6b75; color-scheme:dark}
+  --bus:#f0a640; --jr:#5cc58a; --ks:#8aabf2; --walk:#5d6b75; --ok:#6fd39a; --mid:#eab65a; --hot:#f5897c; color-scheme:dark}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -113,7 +114,7 @@ figcaption{font-size:14px;color:var(--ink2);margin-top:8px}
 /* return band */
 .band{background:var(--band);color:var(--band-ink);padding-block:clamp(72px,10vw,140px);
   --tone:var(--band-tone);--tone2:var(--band-tone2);--ink:var(--band-ink);--ink2:var(--band-ink2);--accent:var(--band-accent);--on-accent:var(--on-band-accent);
-  --bus:var(--bus-l);--jr:var(--jr-l);--ks:var(--ks-l);--walk:var(--walk-l)}
+  --bus:var(--bus-l);--jr:var(--jr-l);--ks:var(--ks-l);--walk:var(--walk-l);--ok:var(--ok-l);--mid:var(--mid-l);--hot:var(--hot-l)}
 .ret-head{display:grid;grid-template-columns:6fr 6fr;gap:clamp(28px,4vw,64px);align-items:end}
 .ret-head .pics{display:grid;grid-template-columns:3fr 2fr;gap:8px}
 .ret-head .pics img{aspect-ratio:4/3;object-fit:cover;height:100%}
@@ -169,6 +170,24 @@ details[open] summary::before{transform:rotate(45deg)}
   .trow{grid-template-columns:1fr 1fr;padding:14px 16px}
   .trow.th{display:none}
   .trow .k{display:block}
+}
+
+/* connection timetable: one row per option, travel order left to right */
+.crows{display:flex;flex-direction:column;gap:4px}
+.crow{display:grid;grid-template-columns:1fr 1fr 1.5fr 1fr 64px;gap:2px 20px;padding:12px 16px;background:var(--tone2);align-items:baseline;font-size:15px}
+.crow b{font-size:19px;font-weight:900;margin-right:4px}
+.crow.ch{background:transparent;padding-block:0 2px;font-size:14px;color:var(--ink2)}
+.crow .k{display:none}
+.crow .cx{grid-column:1/-1;font-size:14px;color:var(--ink2)}
+.st{display:inline-block;font-size:14px;font-weight:700;padding:1px 10px;border-radius:999px}
+.st.ok{color:var(--ok);background:color-mix(in srgb,var(--ok) 20%,transparent)}
+.st.mid{color:var(--mid);background:color-mix(in srgb,var(--mid) 22%,transparent)}
+.st.hot{color:var(--hot);background:color-mix(in srgb,var(--hot) 22%,transparent)}
+@media (max-width:700px){
+  .crow{grid-template-columns:1fr 1fr;gap:6px 16px;padding:14px}
+  .crow.ch{display:none}
+  .crow .k{display:block;font-size:13px;color:var(--ink2)}
+  .crow > div:nth-child(5){grid-column:1/-1;order:-1}
 }
 
 /* two-day calculator: pick each day separately */
@@ -330,7 +349,7 @@ footer .credits a{color:var(--ink2)}
     <div class="ret-head">
       <div class="txt">
         <h2 class="rv">河口湖到成田機場</h2>
-        <p class="statement rv">16:35 的班機，有 6 種搭法來得及，依票價由低到高排列。每種先看「出發時段」：以 13:35 到 14:00 抵達成田機場倒推，有巴士的路線已多留 1 小時塞車時間。想壓得更晚，展開「可搭的班次」，會列出最晚約 14:45 到機場的實際班次和每段轉乘時間。</p>
+        <p class="statement rv">16:35 的班機，有 6 種搭法來得及，依票價由低到高排列。每種先看「出發時段」：以 13:35 到 14:00 抵達成田機場倒推，有巴士的路線已多留 1 小時塞車時間。展開「可搭的班次」可以看到約 12:20 到 14:45 之間到機場的實際班次（全程電車另有清晨班次），依出發時間排列：<span class="st ok">寬裕</span> 是 13:35 前到，<span class="st mid">剛好</span> 是 14:00 前到，<span class="st hot">很緊</span> 是 14:00 之後到。</p>
         <p class="warn rv"><b>越晚出發，風險越高。</b>「可搭的班次」是表定時刻，已預留轉乘時間，但沒有預留巴士塞車；巴士只要誤點就會接不上。年末成田機場的報到、安檢和出境常要排隊，多數航空公司在起飛前 60 分鐘就停止報到。表定時刻不含年末臨時加開的班次。</p>
       </div>
       <div class="pics rv">
@@ -350,14 +369,15 @@ footer .credits a{color:var(--ink2)}
         <div class="strip"><i class="bus" style="flex:115"></i><i class="wk" style="flex:15"></i><i class="jr" style="flex:20"></i><i class="wk" style="flex:15"></i><i class="ks" style="flex:85"></i></div>
         <p class="pc"><span><b>優點</b>全部搭法裡最便宜</span><span><b>缺點</b>最後一段像通勤電車，沒有行李架</span></p>
         <details class="conn">
-          <summary>可搭的 3 班與每段轉乘時間</summary>
+          <summary>可搭的班次（4 班）</summary>
           <div class="inner">
-            <p class="small">表定時刻，已預留轉乘時間，沒有預留巴士塞車。日暮里發，不用特急券、沒有行李架，到成田機場第 2 航廈站。</p>
-            <div class="trows">
-        <div class="trow th"><span>機場段班次</span><span>到機場</span><span>到市區轉乘點</span><span>河口湖出發（表定）</span></div>
-        <div class="trow"><div><span class="k">機場段</span><b>12:14 Access 特急</b><br><span class="small">日暮里，走成田 Sky Access 線直達</span></div><div><span class="k">到機場</span><b>13:29</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 10:55</b><br><span class="small">Busta 新宿下車</span></div><div><span class="k">河口湖出發</span><b>09:10 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>09:10</b>&nbsp;河口湖站搭巴士</li><li><b>10:55</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>11:15</b>&nbsp;前後 山手線（約 4 分鐘一班，坐 21 分）</li><li><b>11:36</b>&nbsp;到日暮里</li><li class="w">轉京成，有 38 分鐘</li><li><b>12:14</b>&nbsp;Access 特急</li><li><b>13:29</b>&nbsp;到機場</li></ol><p class="note">這段車資 ¥1,280，比京成本線貴 ¥220，中途不用換車。</p></div>
-        <div class="trow"><div><span class="k">機場段</span><b>12:51 快速特急</b><br><span class="small">日暮里，在京成佐倉換車</span></div><div><span class="k">到機場</span><b>14:05</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 11:55</b><br><span class="small">Busta 新宿下車</span></div><div><span class="k">河口湖出發</span><b>10:10 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>10:10</b>&nbsp;河口湖站搭巴士</li><li><b>11:55</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>12:15</b>&nbsp;前後 山手線（約 4 分鐘一班，坐 21 分）</li><li><b>12:36</b>&nbsp;到日暮里</li><li class="w">轉京成，有 15 分鐘</li><li><b>12:51</b>&nbsp;快速特急</li><li><b>13:40</b>&nbsp;到京成佐倉</li><li class="w">換車，有 3 分鐘</li><li><b>13:43</b>&nbsp;快速</li><li><b>14:05</b>&nbsp;到機場</li></ol></div>
-        <div class="trow"><div><span class="k">機場段</span><b>13:30 快速特急</b><br><span class="small">日暮里，在京成佐倉換車</span></div><div><span class="k">到機場</span><b>14:45</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 12:35</b><br><span class="small">Busta 新宿下車</span></div><div><span class="k">河口湖出發</span><b>10:50 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>10:50</b>&nbsp;河口湖站搭巴士</li><li><b>12:35</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>12:55</b>&nbsp;前後 山手線（約 4 分鐘一班，坐 21 分）</li><li><b>13:16</b>&nbsp;到日暮里</li><li class="w">轉京成，有 14 分鐘</li><li><b>13:30</b>&nbsp;快速特急</li><li><b>14:20</b>&nbsp;到京成佐倉</li><li class="w">換車，有 3 分鐘</li><li><b>14:23</b>&nbsp;快速</li><li><b>14:45</b>&nbsp;到機場</li></ol></div>
+            <p class="small">日暮里搭京成一般列車，不用特急券。每班都已預留：新宿下巴士走到 JR 20 分、山手線 21 分、日暮里轉京成 10 分。</p>
+            <div class="crows">
+            <div class="crow ch"><span>河口湖出發</span><span>到市區</span><span>機場段</span><span>到機場</span><span></span></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>08:40</b> 巴士</div><div><span class="k">到市區</span><b>10:25</b> 新宿</div><div><span class="k">機場段</span><b>11:32</b> 快速特急</div><div><span class="k">到機場</span><b>12:45</b></div><div><span class="st ok">寬裕</span></div><p class="cx">在日暮里有 26 分鐘轉車；京成佐倉換車 3 分鐘</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:10</b> 巴士</div><div><span class="k">到市區</span><b>10:55</b> 新宿</div><div><span class="k">機場段</span><b>12:14</b> Access 特急</div><div><span class="k">到機場</span><b>13:29</b></div><div><span class="st ok">寬裕</span></div><p class="cx">在日暮里有 38 分鐘轉車；直達不用換車，這段 ¥1,280</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:10</b> 巴士</div><div><span class="k">到市區</span><b>11:55</b> 新宿</div><div><span class="k">機場段</span><b>12:51</b> 快速特急</div><div><span class="k">到機場</span><b>14:05</b></div><div><span class="st hot">很緊</span></div><p class="cx">在日暮里有 15 分鐘轉車；京成佐倉換車 3 分鐘</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:50</b> 巴士</div><div><span class="k">到市區</span><b>12:35</b> 新宿</div><div><span class="k">機場段</span><b>13:30</b> 快速特急</div><div><span class="k">到機場</span><b>14:45</b></div><div><span class="st hot">很緊</span></div><p class="cx">在日暮里有 14 分鐘轉車；京成佐倉換車 3 分鐘</p></div>
             </div>
           </div>
         </details>
@@ -384,14 +404,15 @@ footer .credits a{color:var(--ink2)}
         <div class="strip"><i class="bus" style="flex:130"></i><i class="wk" style="flex:20"></i><i class="jr" style="flex:90"></i></div>
         <p class="pc"><span><b>優點</b>便宜，只換一次，機場段不塞車</span><span><b>缺點</b>東京站的快速月台在很深的地下</span></p>
         <details class="conn">
-          <summary>可搭的 3 班與每段轉乘時間</summary>
+          <summary>可搭的班次（4 班）</summary>
           <div class="inner">
-            <p class="small">東京站直達巴士的回程時刻查不到，以下改用新宿巴士轉 JR 中央線到東京站，全程約 ¥3,800。東京站發，到成田機場第 2 航廈站。快速月台在地下深處。</p>
-            <div class="trows">
-        <div class="trow th"><span>機場段班次</span><span>到機場</span><span>到市區轉乘點</span><span>河口湖出發（表定）</span></div>
-        <div class="trow"><div><span class="k">機場段</span><b>12:15 發</b><br><span class="small">東京站，直達</span></div><div><span class="k">到機場</span><b>13:40</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 10:55</b><br><span class="small">再轉 JR 中央線到東京站</span></div><div><span class="k">河口湖出發</span><b>09:10 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>09:10</b>&nbsp;河口湖站搭巴士</li><li><b>10:55</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>11:15</b>&nbsp;前後 中央線快速（約 4 分鐘一班，坐 14 分）</li><li><b>11:29</b>&nbsp;到東京站</li><li class="w">轉到地下總武線月台 15 分</li><li class="w">等車，有 31 分鐘</li><li><b>12:15</b>&nbsp;快速</li><li><b>13:40</b>&nbsp;到機場</li></ol></div>
-        <div class="trow"><div><span class="k">機場段</span><b>12:41 發</b><br><span class="small">東京站，在千葉換車</span></div><div><span class="k">到機場</span><b>14:16</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 11:25</b><br><span class="small">再轉 JR 中央線到東京站</span></div><div><span class="k">河口湖出發</span><b>09:40 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>09:40</b>&nbsp;河口湖站搭巴士</li><li><b>11:25</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>11:45</b>&nbsp;前後 中央線快速（約 4 分鐘一班，坐 14 分）</li><li><b>11:59</b>&nbsp;到東京站</li><li class="w">轉到地下總武線月台 15 分</li><li class="w">等車，有 27 分鐘</li><li><b>12:41</b>&nbsp;快速</li><li><b>13:20</b>&nbsp;到千葉</li><li class="w">換成田線，有 11 分鐘</li><li><b>13:31</b>&nbsp;成田線</li><li><b>14:16</b>&nbsp;到機場</li></ol></div>
-        <div class="trow"><div><span class="k">機場段</span><b>13:15 發</b><br><span class="small">東京站，直達</span></div><div><span class="k">到機場</span><b>14:41</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 11:55</b><br><span class="small">再轉 JR 中央線到東京站</span></div><div><span class="k">河口湖出發</span><b>10:10 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>10:10</b>&nbsp;河口湖站搭巴士</li><li><b>11:55</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>12:15</b>&nbsp;前後 中央線快速（約 4 分鐘一班，坐 14 分）</li><li><b>12:29</b>&nbsp;到東京站</li><li class="w">轉到地下總武線月台 15 分</li><li class="w">等車，有 31 分鐘</li><li><b>13:15</b>&nbsp;快速</li><li><b>14:41</b>&nbsp;到機場</li></ol></div>
+            <p class="small">東京站直達巴士的回程時刻查不到，以下用新宿巴士轉 JR 中央線到東京站，全程約 ¥3,800。每班都已預留：新宿下巴士走到 JR 20 分、中央線 14 分、東京站轉到地下總武線月台 15 分。</p>
+            <div class="crows">
+            <div class="crow ch"><span>河口湖出發</span><span>到市區</span><span>機場段</span><span>到機場</span><span></span></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>08:10</b> 巴士</div><div><span class="k">到市區</span><b>09:55</b> 新宿</div><div><span class="k">機場段</span><b>11:15</b> JR 快速</div><div><span class="k">到機場</span><b>12:41</b></div><div><span class="st ok">寬裕</span></div><p class="cx">在東京站有 31 分鐘等車；直達機場</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:10</b> 巴士</div><div><span class="k">到市區</span><b>10:55</b> 新宿</div><div><span class="k">機場段</span><b>12:15</b> JR 快速</div><div><span class="k">到機場</span><b>13:40</b></div><div><span class="st mid">剛好</span></div><p class="cx">在東京站有 31 分鐘等車；直達機場</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:40</b> 巴士</div><div><span class="k">到市區</span><b>11:25</b> 新宿</div><div><span class="k">機場段</span><b>12:41</b> JR 快速</div><div><span class="k">到機場</span><b>14:16</b></div><div><span class="st hot">很緊</span></div><p class="cx">在東京站有 27 分鐘等車；千葉換成田線 11 分鐘</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:10</b> 巴士</div><div><span class="k">到市區</span><b>11:55</b> 新宿</div><div><span class="k">機場段</span><b>13:15</b> JR 快速</div><div><span class="k">到機場</span><b>14:41</b></div><div><span class="st hot">很緊</span></div><p class="cx">在東京站有 31 分鐘等車；直達機場</p></div>
             </div>
           </div>
         </details>
@@ -417,14 +438,16 @@ footer .credits a{color:var(--ink2)}
         <div class="strip"><i class="bus" style="flex:130"></i><i class="wk" style="flex:15"></i><i class="bus" style="flex:75"></i></div>
         <p class="pc"><span><b>優點</b>只換一次，行李放車底，走路最少</span><span><b>缺點</b>兩段都走公路，塞車風險最高</span></p>
         <details class="conn">
-          <summary>可搭的 3 班與每段轉乘時間</summary>
+          <summary>可搭的班次（5 班）</summary>
           <div class="inner">
-            <p class="small">東京站直達巴士的回程時刻查不到，以下改用新宿巴士轉 JR 中央線到東京站，全程約 ¥3,960。東京站八重洲南口發，先到第 3 航廈，再到第 2、第 1 航廈，不用預約。</p>
-            <div class="trows">
-        <div class="trow th"><span>機場段班次</span><span>到機場</span><span>到市區轉乘點</span><span>河口湖出發（表定）</span></div>
-        <div class="trow"><div><span class="k">機場段</span><b>12:30 發</b><br><span class="small">東京站八重洲南口</span></div><div><span class="k">到機場</span><b>13:32</b><br><span class="small">第 3 航廈</span></div><div><span class="k">到市區轉乘點</span><b>新宿 11:25</b><br><span class="small">再轉 JR 中央線到東京站</span></div><div><span class="k">河口湖出發</span><b>09:40 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>09:40</b>&nbsp;河口湖站搭巴士</li><li><b>11:25</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>11:45</b>&nbsp;前後 中央線快速（約 4 分鐘一班，坐 14 分）</li><li><b>11:59</b>&nbsp;到東京站</li><li class="w">走到八重洲南口巴士站 15 分</li><li class="w">排隊等車，有 16 分鐘</li><li><b>12:30</b>&nbsp;機場巴士</li><li><b>13:32</b>&nbsp;到第 3 航廈</li></ol></div>
-        <div class="trow"><div><span class="k">機場段</span><b>13:00 發</b><br><span class="small">東京站八重洲南口</span></div><div><span class="k">到機場</span><b>14:02</b><br><span class="small">第 3 航廈</span></div><div><span class="k">到市區轉乘點</span><b>新宿 11:55</b><br><span class="small">再轉 JR 中央線到東京站</span></div><div><span class="k">河口湖出發</span><b>10:10 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>10:10</b>&nbsp;河口湖站搭巴士</li><li><b>11:55</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>12:15</b>&nbsp;前後 中央線快速（約 4 分鐘一班，坐 14 分）</li><li><b>12:29</b>&nbsp;到東京站</li><li class="w">走到八重洲南口巴士站 15 分</li><li class="w">排隊等車，有 16 分鐘</li><li><b>13:00</b>&nbsp;機場巴士</li><li><b>14:02</b>&nbsp;到第 3 航廈</li></ol></div>
-        <div class="trow"><div><span class="k">機場段</span><b>13:18 發</b><br><span class="small">東京站八重洲南口</span></div><div><span class="k">到機場</span><b>14:32</b><br><span class="small">第 3 航廈</span></div><div><span class="k">到市區轉乘點</span><b>新宿 11:55</b><br><span class="small">再轉 JR 中央線到東京站</span></div><div><span class="k">河口湖出發</span><b>10:10 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>10:10</b>&nbsp;河口湖站搭巴士</li><li><b>11:55</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>12:15</b>&nbsp;前後 中央線快速（約 4 分鐘一班，坐 14 分）</li><li><b>12:29</b>&nbsp;到東京站</li><li class="w">走到八重洲南口巴士站 15 分</li><li class="w">排隊等車，有 34 分鐘</li><li><b>13:18</b>&nbsp;機場巴士</li><li><b>14:32</b>&nbsp;到第 3 航廈</li></ol><p class="note">10:50 那班巴士到東京站後趕不上這班。</p></div>
+            <p class="small">東京站直達巴士的回程時刻查不到，以下用新宿巴士轉 JR 中央線到東京站，全程約 ¥3,960。機場巴士不用預約，先到第 3 航廈，再到第 2、第 1 航廈。每班都已預留：新宿下巴士走到 JR 20 分、中央線 14 分、走到八重洲南口巴士站 15 分。</p>
+            <div class="crows">
+            <div class="crow ch"><span>河口湖出發</span><span>到市區</span><span>機場段</span><span>到機場</span><span></span></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>08:40</b> 巴士</div><div><span class="k">到市區</span><b>10:25</b> 新宿</div><div><span class="k">機場段</span><b>11:40</b> 機場巴士</div><div><span class="k">到機場</span><b>12:42</b> 第 3 航廈</div><div><span class="st ok">寬裕</span></div><p class="cx">在巴士站有 26 分鐘排隊</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:10</b> 巴士</div><div><span class="k">到市區</span><b>10:55</b> 新宿</div><div><span class="k">機場段</span><b>12:00</b> 機場巴士</div><div><span class="k">到機場</span><b>13:02</b> 第 3 航廈</div><div><span class="st ok">寬裕</span></div><p class="cx">在巴士站有 16 分鐘排隊</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:40</b> 巴士</div><div><span class="k">到市區</span><b>11:25</b> 新宿</div><div><span class="k">機場段</span><b>12:30</b> 機場巴士</div><div><span class="k">到機場</span><b>13:32</b> 第 3 航廈</div><div><span class="st ok">寬裕</span></div><p class="cx">在巴士站有 16 分鐘排隊</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:10</b> 巴士</div><div><span class="k">到市區</span><b>11:55</b> 新宿</div><div><span class="k">機場段</span><b>13:00</b> 機場巴士</div><div><span class="k">到機場</span><b>14:02</b> 第 3 航廈</div><div><span class="st hot">很緊</span></div><p class="cx">在巴士站有 16 分鐘排隊</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:10</b> 巴士</div><div><span class="k">到市區</span><b>11:55</b> 新宿</div><div><span class="k">機場段</span><b>13:18</b> 機場巴士</div><div><span class="k">到機場</span><b>14:32</b> 第 3 航廈</div><div><span class="st hot">很緊</span></div><p class="cx">在巴士站有 34 分鐘排隊</p></div>
             </div>
           </div>
         </details>
@@ -453,15 +476,17 @@ footer .credits a{color:var(--ink2)}
         <div class="strip"><i class="jr" style="flex:179"></i><i class="wk" style="flex:20"></i><i class="jr" style="flex:90"></i></div>
         <p class="pc"><span><b>優點</b>全程鐵路，完全不怕塞車</span><span><b>缺點</b>清晨那班要 5 點前起床；上午出發的要換 3–4 次車，接 Skyliner 或 N'EX 比巴士貴</span></p>
         <details class="conn">
-          <summary>可搭的 4 班與每段轉乘時間</summary>
+          <summary>可搭的班次（6 班）</summary>
           <div class="inner">
-            <p class="small">不受塞車影響。全部都是表定時刻，在同一站內換車。</p>
-            <div class="trows">
-        <div class="trow th"><span>機場段班次</span><span>到機場</span><span>到市區轉乘點</span><span>河口湖出發（表定）</span></div>
-        <div class="trow"><div><span class="k">機場段</span><b>JR 快速</b><br><span class="small">東京站 09:00 後</span></div><div><span class="k">到機場</span><b>約 10:40</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>東京站 08:48</b><br><span class="small">直通電車不用換車</span></div><div><span class="k">河口湖出發</span><b>05:49 普通車</b><br><span class="small">直通東京</span></div><ol class="chain"><li><b>05:49</b>&nbsp;河口湖站搭直通東京的普通電車</li><li><b>08:48</b>&nbsp;到東京站</li><li class="w">轉到地下總武線月台 15 分</li><li><b>09:00 後</b>&nbsp;搭往成田空港的快速，約 90 分</li><li><b>約 10:40</b>&nbsp;到機場</li></ol><p class="note">全程 ¥4,180，到機場要等很久，但完全不怕塞車。</p></div>
-        <div class="trow"><div><span class="k">機場段</span><b>N'EX 27 號</b><br><span class="small">新宿 12:38</span></div><div><span class="k">到機場</span><b>13:53</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 12:26</b><br><span class="small">JR 站內轉乘</span></div><div><span class="k">河口湖出發</span><b>10:00 普通車</b><br><span class="small">富士急</span></div><ol class="chain"><li><b>10:00</b>&nbsp;河口湖站搭富士急普通車</li><li><b>11:00</b>&nbsp;到大月</li><li class="w">換中央線，有 5 分鐘</li><li><b>11:05</b>&nbsp;中央線</li><li><b>12:26</b>&nbsp;到新宿</li><li class="w">站內轉 N'EX，有 12 分鐘</li><li><b>12:38</b>&nbsp;N'EX 27 號</li><li><b>13:53</b>&nbsp;到機場</li></ol><p class="note">全程 ¥6,090。</p></div>
-        <div class="trow"><div><span class="k">機場段</span><b>Skyliner 47 號</b><br><span class="small">日暮里 13:25</span></div><div><span class="k">到機場</span><b>14:01</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>日暮里 12:57</b><br><span class="small">JR 轉京成</span></div><div><span class="k">河口湖出發</span><b>10:00 普通車</b><br><span class="small">富士急</span></div><ol class="chain"><li><b>10:00</b>&nbsp;河口湖站搭富士急普通車</li><li><b>11:00</b>&nbsp;到大月</li><li class="w">換中央線，有 5 分鐘</li><li><b>11:05</b>&nbsp;中央線</li><li><b>12:26</b>&nbsp;到新宿</li><li class="w">換山手線，有 10 分鐘</li><li><b>12:36</b>&nbsp;山手線</li><li><b>12:57</b>&nbsp;到日暮里</li><li class="w">換票、轉京成，有 28 分鐘</li><li><b>13:25</b>&nbsp;Skyliner 47 號</li><li><b>14:01</b>&nbsp;到機場</li></ol><p class="note">全程 ¥5,350。</p></div>
-        <div class="trow"><div><span class="k">機場段</span><b>Skyliner 51 號</b><br><span class="small">日暮里 14:05</span></div><div><span class="k">到機場</span><b>14:41</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>日暮里 13:42</b><br><span class="small">JR 轉京成</span></div><div><span class="k">河口湖出發</span><b>11:01 富士急特急</b><br><span class="small">富士急特急 4 號</span></div><ol class="chain"><li><b>11:01</b>&nbsp;河口湖站搭富士急特急 4 號</li><li><b>11:55</b>&nbsp;到大月</li><li class="w">換甲斐路，有 11 分鐘</li><li><b>12:06</b>&nbsp;甲斐路 20 號</li><li><b>13:09</b>&nbsp;到新宿</li><li class="w">換山手線，有 12 分鐘</li><li><b>13:21</b>&nbsp;山手線</li><li><b>13:42</b>&nbsp;到日暮里</li><li class="w">換票、轉京成，有 23 分鐘</li><li><b>14:05</b>&nbsp;Skyliner 51 號</li><li><b>14:41</b>&nbsp;到機場</li></ol><p class="note">全程 ¥6,770。</p></div>
+            <p class="small">不受塞車影響，都是表定時刻，在同一站內換車。</p>
+            <div class="crows">
+            <div class="crow ch"><span>河口湖出發</span><span>到市區</span><span>機場段</span><span>到機場</span><span></span></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>05:49</b> 普通車</div><div><span class="k">到市區</span><b>08:48</b> 東京站</div><div><span class="k">機場段</span><b>09:00 後</b> JR 快速</div><div><span class="k">到機場</span><b>約 10:40</b></div><div><span class="st ok">寬裕</span></div><p class="cx">直通東京不用換車；在東京站轉總武線 15 分鐘；全程 ¥4,180</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:00</b> 普通車</div><div><span class="k">到市區</span><b>11:27</b> 新宿</div><div><span class="k">機場段</span><b>12:25</b> Skyliner 41 號</div><div><span class="k">到機場</span><b>13:01</b></div><div><span class="st ok">寬裕</span></div><p class="cx">大月轉甲斐路 14 號；在日暮里有 28 分鐘轉車；全程 ¥6,370</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:16</b> 富士山景觀特急</div><div><span class="k">到市區</span><b>11:40</b> 東京站</div><div><span class="k">機場段</span><b>12:03</b> N'EX 23 號</div><div><span class="k">到機場</span><b>12:54</b></div><div><span class="st ok">寬裕</span></div><p class="cx">大月轉甲斐路 14 號；在東京站有 23 分鐘轉車；全程 ¥7,510</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:00</b> 普通車</div><div><span class="k">到市區</span><b>12:26</b> 新宿</div><div><span class="k">機場段</span><b>12:38</b> N'EX 27 號</div><div><span class="k">到機場</span><b>13:53</b></div><div><span class="st mid">剛好</span></div><p class="cx">大月轉中央線；在新宿站內有 12 分鐘轉車；全程 ¥6,090</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:00</b> 普通車</div><div><span class="k">到市區</span><b>12:57</b> 日暮里</div><div><span class="k">機場段</span><b>13:25</b> Skyliner 47 號</div><div><span class="k">到機場</span><b>14:01</b></div><div><span class="st hot">很緊</span></div><p class="cx">大月轉中央線，新宿轉山手線；在日暮里有 28 分鐘轉車；全程 ¥5,350</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>11:01</b> 富士急特急</div><div><span class="k">到市區</span><b>13:42</b> 日暮里</div><div><span class="k">機場段</span><b>14:05</b> Skyliner 51 號</div><div><span class="k">到機場</span><b>14:41</b></div><div><span class="st hot">很緊</span></div><p class="cx">大月轉甲斐路 20 號，新宿轉山手線；在日暮里有 23 分鐘轉車；全程 ¥6,770</p></div>
             </div>
           </div>
         </details>
@@ -491,15 +516,19 @@ footer .credits a{color:var(--ink2)}
         <div class="strip"><i class="bus" style="flex:115"></i><i class="wk" style="flex:15"></i><i class="jr" style="flex:20"></i><i class="wk" style="flex:15"></i><i class="ks" style="flex:40"></i></div>
         <p class="pc"><span><b>優點</b>機場段最快最準時，有對號座和行李架</span><span><b>缺點</b>拖行李要轉兩次車</span></p>
         <details class="conn">
-          <summary>可搭的 4 班與每段轉乘時間</summary>
+          <summary>可搭的班次（8 班）</summary>
           <div class="inner">
-            <p class="small">表定時刻，已預留轉乘時間，沒有預留巴士塞車。日暮里發，到成田機場第 2 航廈站。用優惠票的話，在日暮里換票的時間也要算在等車時間裡。</p>
-            <div class="trows">
-        <div class="trow th"><span>機場段班次</span><span>到機場</span><span>到市區轉乘點</span><span>河口湖出發（表定）</span></div>
-        <div class="trow"><div><span class="k">機場段</span><b>45 號</b><br><span class="small">日暮里 13:05</span></div><div><span class="k">到機場</span><b>13:41</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 11:55</b><br><span class="small">Busta 新宿下車</span></div><div><span class="k">河口湖出發</span><b>10:10 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>10:10</b>&nbsp;河口湖站搭巴士</li><li><b>11:55</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>12:15</b>&nbsp;前後 山手線（約 4 分鐘一班，坐 21 分）</li><li><b>12:36</b>&nbsp;到日暮里</li><li class="w">換票、轉京成，有 29 分鐘</li><li><b>13:05</b>&nbsp;Skyliner 45 號</li><li><b>13:41</b>&nbsp;到機場</li></ol></div>
-        <div class="trow"><div><span class="k">機場段</span><b>47 號</b><br><span class="small">日暮里 13:25</span></div><div><span class="k">到機場</span><b>14:01</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 11:55</b><br><span class="small">Busta 新宿下車</span></div><div><span class="k">河口湖出發</span><b>10:10 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>10:10</b>&nbsp;河口湖站搭巴士</li><li><b>11:55</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>12:15</b>&nbsp;前後 山手線（約 4 分鐘一班，坐 21 分）</li><li><b>12:36</b>&nbsp;到日暮里</li><li class="w">換票、轉京成，有 49 分鐘</li><li><b>13:25</b>&nbsp;Skyliner 47 號</li><li><b>14:01</b>&nbsp;到機場</li></ol><p class="note">10:50 那班巴士到日暮里後只剩不到 10 分鐘，轉乘時間不夠。</p></div>
-        <div class="trow"><div><span class="k">機場段</span><b>149 號</b><br><span class="small">日暮里 13:40</span></div><div><span class="k">到機場</span><b>14:21</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 12:35</b><br><span class="small">Busta 新宿下車</span></div><div><span class="k">河口湖出發</span><b>10:50 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>10:50</b>&nbsp;河口湖站搭巴士</li><li><b>12:35</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>12:55</b>&nbsp;前後 山手線（約 4 分鐘一班，坐 21 分）</li><li><b>13:16</b>&nbsp;到日暮里</li><li class="w">換票、轉京成，有 24 分鐘</li><li><b>13:40</b>&nbsp;Skyliner 149 號</li><li><b>14:21</b>&nbsp;到機場</li></ol></div>
-        <div class="trow"><div><span class="k">機場段</span><b>51 號</b><br><span class="small">日暮里 14:05</span></div><div><span class="k">到機場</span><b>14:41</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 12:55</b><br><span class="small">Busta 新宿下車</span></div><div><span class="k">河口湖出發</span><b>11:10 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>11:10</b>&nbsp;河口湖站搭巴士</li><li><b>12:55</b>&nbsp;到 Busta 新宿</li><li class="w">走到 JR 新宿站 20 分</li><li><b>13:15</b>&nbsp;前後 山手線（約 4 分鐘一班，坐 21 分）</li><li><b>13:36</b>&nbsp;到日暮里</li><li class="w">換票、轉京成，有 29 分鐘</li><li><b>14:05</b>&nbsp;Skyliner 51 號</li><li><b>14:41</b>&nbsp;到機場</li></ol></div>
+            <p class="small">每班都已預留：新宿下巴士走到 JR 20 分、山手線 21 分、日暮里轉京成 10 分。用優惠票要在日暮里換票，換票時間算在轉車時間裡。</p>
+            <div class="crows">
+            <div class="crow ch"><span>河口湖出發</span><span>到市區</span><span>機場段</span><span>到機場</span><span></span></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>08:40</b> 巴士</div><div><span class="k">到市區</span><b>10:25</b> 新宿</div><div><span class="k">機場段</span><b>11:40</b> Skyliner 137 號</div><div><span class="k">到機場</span><b>12:21</b></div><div><span class="st ok">寬裕</span></div><p class="cx">在日暮里有 34 分鐘換票、轉車</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:10</b> 巴士</div><div><span class="k">到市區</span><b>10:55</b> 新宿</div><div><span class="k">機場段</span><b>12:05</b> Skyliner 39 號</div><div><span class="k">到機場</span><b>12:41</b></div><div><span class="st ok">寬裕</span></div><p class="cx">在日暮里有 29 分鐘換票、轉車</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:40</b> 巴士</div><div><span class="k">到市區</span><b>11:25</b> 新宿</div><div><span class="k">機場段</span><b>12:25</b> Skyliner 41 號</div><div><span class="k">到機場</span><b>13:01</b></div><div><span class="st ok">寬裕</span></div><p class="cx">在日暮里有 19 分鐘換票、轉車</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:40</b> 巴士</div><div><span class="k">到市區</span><b>11:25</b> 新宿</div><div><span class="k">機場段</span><b>12:40</b> Skyliner 143 號</div><div><span class="k">到機場</span><b>13:21</b></div><div><span class="st ok">寬裕</span></div><p class="cx">在日暮里有 34 分鐘換票、轉車</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:10</b> 巴士</div><div><span class="k">到市區</span><b>11:55</b> 新宿</div><div><span class="k">機場段</span><b>13:05</b> Skyliner 45 號</div><div><span class="k">到機場</span><b>13:41</b></div><div><span class="st mid">剛好</span></div><p class="cx">在日暮里有 29 分鐘換票、轉車</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:10</b> 巴士</div><div><span class="k">到市區</span><b>11:55</b> 新宿</div><div><span class="k">機場段</span><b>13:25</b> Skyliner 47 號</div><div><span class="k">到機場</span><b>14:01</b></div><div><span class="st hot">很緊</span></div><p class="cx">在日暮里有 49 分鐘換票、轉車</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:50</b> 巴士</div><div><span class="k">到市區</span><b>12:35</b> 新宿</div><div><span class="k">機場段</span><b>13:40</b> Skyliner 149 號</div><div><span class="k">到機場</span><b>14:21</b></div><div><span class="st hot">很緊</span></div><p class="cx">在日暮里有 24 分鐘換票、轉車</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>11:10</b> 巴士</div><div><span class="k">到市區</span><b>12:55</b> 新宿</div><div><span class="k">機場段</span><b>14:05</b> Skyliner 51 號</div><div><span class="k">到機場</span><b>14:41</b></div><div><span class="st hot">很緊</span></div><p class="cx">在日暮里有 29 分鐘換票、轉車</p></div>
             </div>
           </div>
         </details>
@@ -532,14 +561,16 @@ footer .credits a{color:var(--ink2)}
         <div class="strip"><i class="bus" style="flex:115"></i><i class="wk" style="flex:15"></i><i class="jr" style="flex:80"></i></div>
         <p class="pc"><span><b>優點</b>在新宿換一次就到機場，有對號座</span><span><b>缺點</b>比 Skyliner 貴，班次也比較少</span></p>
         <details class="conn">
-          <summary>可搭的 3 班與每段轉乘時間</summary>
+          <summary>可搭的班次（5 班）</summary>
           <div class="inner">
-            <p class="small">表定時刻，已預留轉乘時間，沒有預留巴士塞車。JR 新宿站發，到成田機場第 2 航廈站，中途不用換車。</p>
-            <div class="trows">
-        <div class="trow th"><span>機場段班次</span><span>到機場</span><span>到市區轉乘點</span><span>河口湖出發（表定）</span></div>
-        <div class="trow"><div><span class="k">機場段</span><b>25 號</b><br><span class="small">新宿 12:08</span></div><div><span class="k">到機場</span><b>13:23</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 11:25</b><br><span class="small">Busta 新宿下車</span></div><div><span class="k">河口湖出發</span><b>09:40 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>09:40</b>&nbsp;河口湖站搭巴士</li><li><b>11:25</b>&nbsp;到 Busta 新宿</li><li class="w">走到 N'EX 月台並取票 25 分</li><li class="w">等車，有 18 分鐘</li><li><b>12:08</b>&nbsp;N'EX 25 號</li><li><b>13:23</b>&nbsp;到機場</li></ol></div>
-        <div class="trow"><div><span class="k">機場段</span><b>27 號</b><br><span class="small">新宿 12:38</span></div><div><span class="k">到機場</span><b>13:53</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 11:55</b><br><span class="small">Busta 新宿下車</span></div><div><span class="k">河口湖出發</span><b>10:10 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>10:10</b>&nbsp;河口湖站搭巴士</li><li><b>11:55</b>&nbsp;到 Busta 新宿</li><li class="w">走到 N'EX 月台並取票 25 分</li><li class="w">等車，有 18 分鐘</li><li><b>12:38</b>&nbsp;N'EX 27 號</li><li><b>13:53</b>&nbsp;到機場</li></ol></div>
-        <div class="trow"><div><span class="k">機場段</span><b>29 號</b><br><span class="small">新宿 13:08</span></div><div><span class="k">到機場</span><b>14:27</b><br><span class="small">第 2 航廈站</span></div><div><span class="k">到市區轉乘點</span><b>新宿 12:35</b><br><span class="small">Busta 新宿下車</span></div><div><span class="k">河口湖出發</span><b>10:50 巴士</b><br><span class="small">表定，可能塞車</span></div><ol class="chain"><li><b>10:50</b>&nbsp;河口湖站搭巴士</li><li><b>12:35</b>&nbsp;到 Busta 新宿</li><li class="w">走到 N'EX 月台並取票 25 分</li><li class="w">等車，有 8 分鐘</li><li><b>13:08</b>&nbsp;N'EX 29 號</li><li><b>14:27</b>&nbsp;到機場</li></ol><p class="note">11:00 那班巴士到新宿後只剩 23 分鐘，不夠走到月台取票。</p></div>
+            <p class="small">N'EX 從 JR 新宿站直達機場，中途不用換車。每班都已預留：新宿下巴士走到 N'EX 月台並取票 25 分。</p>
+            <div class="crows">
+            <div class="crow ch"><span>河口湖出發</span><span>到市區</span><span>機場段</span><span>到機場</span><span></span></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>08:40</b> 巴士</div><div><span class="k">到市區</span><b>10:25</b> 新宿</div><div><span class="k">機場段</span><b>11:08</b> N'EX 21 號</div><div><span class="k">到機場</span><b>12:27</b></div><div><span class="st ok">寬裕</span></div><p class="cx">下巴士後有 43 分鐘到發車</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:10</b> 巴士</div><div><span class="k">到市區</span><b>10:55</b> 新宿</div><div><span class="k">機場段</span><b>11:38</b> N'EX 23 號</div><div><span class="k">到機場</span><b>12:54</b></div><div><span class="st ok">寬裕</span></div><p class="cx">下巴士後有 43 分鐘到發車</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>09:40</b> 巴士</div><div><span class="k">到市區</span><b>11:25</b> 新宿</div><div><span class="k">機場段</span><b>12:08</b> N'EX 25 號</div><div><span class="k">到機場</span><b>13:23</b></div><div><span class="st ok">寬裕</span></div><p class="cx">下巴士後有 43 分鐘到發車</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:10</b> 巴士</div><div><span class="k">到市區</span><b>11:55</b> 新宿</div><div><span class="k">機場段</span><b>12:38</b> N'EX 27 號</div><div><span class="k">到機場</span><b>13:53</b></div><div><span class="st mid">剛好</span></div><p class="cx">下巴士後有 43 分鐘到發車</p></div>
+            <div class="crow"><div><span class="k">河口湖出發</span><b>10:50</b> 巴士</div><div><span class="k">到市區</span><b>12:35</b> 新宿</div><div><span class="k">機場段</span><b>13:08</b> N'EX 29 號</div><div><span class="k">到機場</span><b>14:27</b></div><div><span class="st hot">很緊</span></div><p class="cx">下巴士後有 33 分鐘到發車</p></div>
             </div>
           </div>
         </details>
